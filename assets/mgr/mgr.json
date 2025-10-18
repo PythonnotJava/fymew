@@ -1,0 +1,37 @@
+{
+  "src": {
+    "C:\\Users\\25654\\Music\\ENV - Microburst (8级别).flac": true,
+    "C:\\Users\\25654\\Music\\Imagine Dragons _ Elisa - Birds (V0).mp3": true,
+    "C:\\Users\\25654\\Music\\Junona Boys - Relax (V0).mp3": true,
+    "C:\\Users\\25654\\Music\\Sofia Jannok - Liekkas (8级别).flac": true,
+    "C:\\Users\\25654\\Music\\T-ara _ 筷子兄弟 - Little Apple (8级别).flac": true,
+    "C:\\Users\\25654\\Music\\Vicetone _ WILLIM缪维霖 _ 黄霄雲 - 平行线 (Wish You Were Here) (V0).mp3": true,
+    "C:\\Users\\25654\\Music\\张韶涵 - 无度 (V0).mp3": true,
+    "C:\\Users\\25654\\Music\\彭十六 - 戏影 (V0).mp3": true,
+    "C:\\Users\\25654\\Music\\赵雷 - 阿刁 (V0).mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\Avril Lavigne - Innocence.mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\G.E.M.邓紫棋 - Where Did U Go.mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\Viva La Vida-Coldplay#eO16y.mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\华晨宇 - 烟火里的尘埃.mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\周杰伦 - 夜曲.mp3": true,
+    "C:\\Users\\25654\\Desktop\\12212\\周杰伦 - 晴天.mp3": true
+  },
+  "user": {
+    "name": "睿智的帽子",
+    "register": "2025-10-02 20:19:31"
+  },
+  "music": {
+    "currentMusic": null,
+    "playbackMode": 0,
+    "infopkl": null
+  },
+  "counter": 16,
+  "toTop": -1,
+  "favorCounter": 0,
+  "favor": {},
+  "playTarget": 0,
+  "copacity": 0.5,
+  "lopacity": 0.9,
+  "bgMode": "2",
+  "gifFps": 15
+}

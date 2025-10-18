@@ -1,0 +1,174 @@
+name: fymew
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  # 路径
+  path: ^1.9.1
+  # 路径
+  path_provider: ^2.1.5
+  # 处理音乐信息
+  audio_metadata_reader: ^1.4.2
+  # 加载动画
+  flutter_spinkit: ^5.2.2
+  # svg到控件
+  flutter_svg: ^2.2.1
+  # 要权限
+  permission_handler: ^12.0.1
+  # 跑马灯控件
+  marquee: ^2.3.0
+  # 选文件、文件夹
+  file_picker: ^10.3.3
+  # 选文件、文件夹
+  file_selector: ^1.0.4
+  # 状态管理器
+  provider: ^6.1.5+1
+  # 启动闪屏
+  flutter_native_splash: ^2.4.6
+  # 滑动条
+  flutter_slidable: ^4.0.3
+  # json控件
+  flutter_json_view: ^1.1.5
+  # 向量支持
+  vector_math: ^2.2.0
+  # PC限制尺寸
+  window_size: ^0.1.0
+  # 网络请求
+  dio: ^5.9.0
+  # 独一无二的信息生成器
+  uuid: ^4.5.1
+  # logo
+  flutter_launcher_icons: ^0.14.4
+  # 环形进度器
+  percent_indicator: ^4.2.5
+  # 设备信息来获取设备内存大小
+  device_info_plus: ^12.1.0
+  # 控件转图片
+  widgets_to_image: ^2.0.1
+  # 安卓存图片(PC不支持)
+  photo_manager: ^3.7.1
+  # gif展示
+  gif_view: ^1.0.3
+  # 播放器系统通知栏UI
+  audio_service: ^0.18.18
+  # 监测音频焦点抢占
+  audio_session: ^0.2.2
+  # 网页展示
+  flutter_inappwebview: ^6.1.5
+  # 3d
+  model_viewer_plus: ^1.9.3
+  # 轮播
+  carousel_page_view: ^1.0.2
+  # 链接直达
+  url_launcher: ^6.3.2
+  # 处理乱码同义转换为utf8
+  charset_converter: ^2.3.0
+  # 图片修正
+  image: ^4.5.4
+  # 轮播栏目
+  flutter_swiper_plus: ^2.0.4
+  # 网络图片缓存
+  cached_network_image: ^3.4.1
+  # 音乐播放器
+  media_kit: ^1.2.1 # Primary package.
+  media_kit_video: ^1.3.1 # For video rendering.
+  media_kit_libs_video: ^1.0.7 # Native video dependencies.
+  rename: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter_native_splash:
+  color: "#b0e0e6" # Android 11及以下版本的背景颜色
+  image: assets/img/splash.png # Android 11及以下版本的图片
+
+  android_12:
+    image: assets/img/splash.png # Android 12+ 的前景图片（Logo）
+    color: "#b0e0e6" # Android 12+ 的背景颜色
+    icon_background_color: "#b0e0e6" # Android 12+ 的图标背景颜色（可选）
+
+flutter:
+
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/pkl/
+    - assets/img/
+    - assets/music/default.mp3
+    - assets/mgr/
+    - assets/fonts/
+    - assets/temp_online/
+    - assets/forever_online/
+    - assets/log/
+    - assets/covers/
+
+  fonts:
+    - family: SourceHanSerifSC
+      fonts:
+        - asset: assets/fonts/SourceHanSansSC-Normal.otf
+    - family: Ygy
+      fonts:
+        - asset: assets/fonts/ygy.ttf
+
+# flutter_launcher_icons 配置
+flutter_launcher_icons:
+  # Android 图标路径，可单独指定
+  image_path_android: "assets/img/splash_1024.png"
+
+  android: true            # 生成 Android 图标
+
+  adaptive_icon_background: "#ffffff"    # 安卓 8.0+ 自适应图标背景色
+  adaptive_icon_foreground: "assets/img/splash_1024.png"  # 前景图
+  adaptive_icon_foreground_inset: 16    # 前景图内边距（安卓 8.0+）
+  adaptive_icon_monochrome: "assets/img/splash_1024.png"  # 安卓 13+ 单色图标
+  min_sdk_android: 21       # Android 最低 SDK
+
+  # Windows 平台配置
+  windows:
+    generate: true
+    image_path: "assets/img/splash_1024.png"
+    icon_size: 48   # 支持 48~256
+
+  # macOS 平台配置
+  macos:
+    generate: true
+    image_path: "assets/img/splash_1024.png"
+
+  # Linux 平台配置
+  linux:
+    generate: true
+    image_path: "assets/img/splash_1024.png"
