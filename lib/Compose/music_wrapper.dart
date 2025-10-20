@@ -1,7 +1,7 @@
 part of 'panel.dart';
 
 /// 检查音乐链接是不是合理
-/// 返回值含义：0：空连接、1：链接找不到、2：不支持的文件格式、3：无法响应、4：存在且是mp3、5：存在且是flac
+/// 返回值含义：0：空连接、1：链接找不到、2：不支持的文件格式、3：无法响应、4：存在且是mp3、5：存在且是flac，6：指定的本地图片
 Future<int> checkMusicLin(String text) async {
   final url = text.trim();
 
@@ -87,6 +87,7 @@ class MusicWrpperState extends State<MusicWrpper> {
   late final TextEditingController coverController;
   late final TextEditingController artistController;
   late final TextEditingController titleController;
+  late final TextEditingController localCoverController;
 
   /// 当音乐链接被输入会秒检测，成功则生成封面、歌曲作者和歌曲名字否则提升
   /// -1表示等待输入中
@@ -106,6 +107,7 @@ class MusicWrpperState extends State<MusicWrpper> {
     coverController = TextEditingController();
     artistController = TextEditingController();
     titleController = TextEditingController();
+    localCoverController = TextEditingController();
     super.initState();
   }
 
@@ -115,6 +117,7 @@ class MusicWrpperState extends State<MusicWrpper> {
     textEditingController.dispose();
     artistController.dispose();
     titleController.dispose();
+    localCoverController.dispose();
     super.dispose();
   }
 
@@ -299,6 +302,100 @@ class MusicWrpperState extends State<MusicWrpper> {
 
               const SizedBox(height: 12),
 
+              /// 采用本地的图片当封面
+              TextButton(
+                onPressed: () async {
+                  if (isPlatformWithMobile &&
+                      !await FileFolderPicker.hasPermission) {
+                    bool granted =
+                        await FileFolderPicker.requestMobilePermission();
+                    if (!granted) {
+                      bool isPermanentlyDenied = await Permission
+                          .manageExternalStorage
+                          .isPermanentlyDenied;
+                      if (isPermanentlyDenied && context.mounted) {
+                        /// 永久拒绝，显示引导对话框
+                        await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("需要存储权限"),
+                            content: Text("请在系统设置中授予存储权限以选择图片。"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("取消"),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await openAppSettings();
+                                  Navigator.pop(context);
+                                },
+                                child: Text("去设置"),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else if (context.mounted) {
+                        /// 普通拒绝，显示简短提示
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("请授予存储权限以选择图片"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                      return;
+                    }
+                  }
+
+                  final String? path = await FileFolderPicker.pickFile(
+                    allowedExtensions: const ['png', 'jpg', 'jpeg'],
+                    label: 'Image File',
+                  );
+
+                  if (path != null) {
+                    /// 成功选中的话，先同步显示，等确定之后再拷贝
+                    setState(() {
+                      localCoverController.text = path;
+                      tempCoverPath = path;
+                      coverMode = 6;
+                    });
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("取消选择图片"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.ads_click, color: Colors.lightBlue),
+                    Text(
+                      '* 采用本地封面',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              TextField(
+                controller: localCoverController,
+                decoration: const InputDecoration(
+                  hintText: '可以为空',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
+                ),
+                minLines: 1,
+                maxLines: 5,
+                enabled: false,
+              ),
+
+              const SizedBox(height: 12),
+
               /// 歌手
               const Text(
                 '* 指定歌手',
@@ -362,6 +459,25 @@ class MusicWrpperState extends State<MusicWrpper> {
                             onPressed: () async {
                               if (!mounted) return;
                               isAbsorbing = true;
+
+                              /// 即使没做封面检测，也要检测一下：前提是tempCoverPath空且url不空
+                              if (tempCoverPath == null &&
+                                  coverController.text.isNotEmpty) {
+                                await checkCoverExist(coverController.text);
+                              }
+
+                              /// 如果tempCoverPath仍然不空，说明指定了存在路径，复制到永久
+                              /// tempCoverPath来自temp_online缓存或者本地图库
+                              /// 本地和网络都试了的话，网络优先
+                              if (tempCoverPath != null) {
+                                final String targetPath =
+                                    '${foreverOnlineDir.path}/${path_lib.basename(tempCoverPath!)}';
+
+                                /// 复制文件
+                                await File(tempCoverPath!).copy(targetPath);
+                                tempCoverPath = targetPath;
+                              }
+
                               final newInfo = await info!.copyButPoint(
                                 pointArtist: artistController.text.isEmpty
                                     ? null
@@ -408,7 +524,9 @@ class MusicWrpperState extends State<MusicWrpper> {
           duration: const Duration(milliseconds: 350),
           curve: Curves.easeOutCubic,
           constraints: BoxConstraints(
-            maxHeight: isPortrait ? mq.size.height * 0.7 : mq.size.height * 0.85,
+            maxHeight: isPortrait
+                ? mq.size.height
+                : mq.size.height,
             maxWidth: isPortrait ? mq.size.width * 0.9 : mq.size.width * 0.8,
           ),
           padding: const EdgeInsets.only(top: 8),
@@ -492,13 +610,6 @@ class MusicWrpperState extends State<MusicWrpper> {
     }
   }
 
-  image.Image _cropToSquare(image.Image src) {
-    final int size = min(src.width, src.height);
-    final x = (src.width - size) ~/ 2;
-    final y = (src.height - size) ~/ 2;
-    return image.copyCrop(src, x: x, y: y, width: size, height: size);
-  }
-
   void showSnackBar(String text, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -509,6 +620,14 @@ class MusicWrpperState extends State<MusicWrpper> {
   }
 }
 
+/// 图片转正方形
+image.Image _cropToSquare(image.Image src) {
+  final int size = min(src.width, src.height);
+  final x = (src.width - size) ~/ 2;
+  final y = (src.height - size) ~/ 2;
+  return image.copyCrop(src, x: x, y: y, width: size, height: size);
+}
+
 Future<void> showMusicWrapper(
   BuildContext context,
   PlayerController playerController,
@@ -517,6 +636,7 @@ Future<void> showMusicWrapper(
   final floatingState = playerController.bindMaps[1] as FloatingPlayerState;
   floatingState.justHide();
   await showDialog<void>(
+    barrierDismissible: false,
     context: context,
     builder: (context) {
       return MusicWrpper(

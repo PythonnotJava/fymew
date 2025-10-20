@@ -16,6 +16,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 import 'package:image/image.dart' as image;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path/path.dart' as path_lib;
 
 import 'floating_player.dart';
 import 'background_builder.dart';
@@ -30,6 +32,7 @@ import 'web_loader.dart'
 import 'timer_dialog.dart' show createTimerDialogCompletely;
 import 'debug_viewer.dart' show showDebugViewer;
 import '../Logic/global_config.dart';
+import '../Logic/picker.dart';
 
 part 'music_wrapper.dart';
 part 'queue_panel_view.dart';
