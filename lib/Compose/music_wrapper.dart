@@ -124,10 +124,12 @@ class MusicWrpperState extends State<MusicWrpper> {
   @override
   Widget build(BuildContext context) {
     final core = SimpleDialog(
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.my_library_music_rounded, color: Colors.lightBlue),
-          Text('歌曲包装导入'),
+          const Icon(Icons.my_library_music_rounded, color: Colors.lightBlue),
+          const Text('歌曲包装导入'),
+          const Spacer(),
+          IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close))
         ],
       ),
       children: [
