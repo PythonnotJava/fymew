@@ -804,5 +804,6 @@ class PlayerController extends ChangeNotifier {
     } else {
       await audioPlayer.playOrPause();
     }
+    notifyListeners();
   }
 }

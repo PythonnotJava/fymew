@@ -39,12 +39,12 @@ Future<int> checkMusicLin(String text) async {
   }
 }
 
-class _StatusHint extends StatelessWidget {
+class StatusHint extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color color;
 
-  const _StatusHint({
+  const StatusHint({
     required this.icon,
     required this.text,
     required this.color,
@@ -194,31 +194,31 @@ class MusicWrpperState extends State<MusicWrpper> {
   Widget buildByVisible() {
     switch (visible) {
       case -1:
-        return const _StatusHint(
+        return const StatusHint(
           icon: Icons.hourglass_empty,
           text: '等待输入中',
           color: Colors.lightBlue,
         );
       case 0:
-        return const _StatusHint(
+        return const StatusHint(
           icon: Icons.link_off,
           text: '空的链接',
           color: Colors.red,
         );
       case 1:
-        return const _StatusHint(
+        return const StatusHint(
           icon: Icons.error_outline,
           text: '找不到该链接',
           color: Colors.red,
         );
       case 2:
-        return const _StatusHint(
+        return const StatusHint(
           icon: Icons.block,
           text: '仅支持 mp3 / flac 格式文件',
           color: Colors.red,
         );
       case 3:
-        return const _StatusHint(
+        return const StatusHint(
           icon: Icons.cloud_off,
           text: '无法响应服务',
           color: Colors.red,
@@ -226,7 +226,7 @@ class MusicWrpperState extends State<MusicWrpper> {
 
       default:
         if (info == null) {
-          return const _StatusHint(
+          return const StatusHint(
             icon: Icons.download_for_offline,
             text: '歌曲下载失败',
             color: Colors.red,
